@@ -50,16 +50,6 @@ sincronização e gerenciamente complicados de ((thread))s.
 
 {{index "programming language", "Node.js", standard}}
 
-Node was initially conceived for the purpose of making asynchronous
-programming easy and convenient. JavaScript lends itself well to a
-system like Node. It is one of the few programming languages that does
-not have a built-in way to do in- and output. Thus, JavaScript could
-be fit onto Node's rather eccentric approach to in- and output without
-ending up with two inconsistent interfaces. In 2009, when Node was
-being designed, people were already doing callback-based programming
-in the browser, so the ((community)) around the language was used to
-an ((asynchronous programming)) style.
-
 Node foi inicialmente concebido para o propósito de tornar programação assíncrona
 fácil e conveniente. JavaScript se adequa bem a isto. É uma das poucas linguagens
 que não tem uma forma nativa de fazer _I/O_ (input/output ou entrada/saída).

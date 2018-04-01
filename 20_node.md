@@ -4,57 +4,49 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-A student asked 'The programmers of old used only simple machines and
-no programming languages, yet they made beautiful programs. Why do we
-use complicated machines and programming languages?'. Fu-Tzu replied
-'The builders of old used only sticks and clay, yet they made
-beautiful huts.'
+Um estudante perguntou ‘Os programadores de antigamente usavam somente máquinas simples e nenhuma linguagem de programação, mas mesmo assim eles construíram lindos programas. Por que nós usamos máquinas complicadas e linguagens de programação?’. Fu-Tzu respondeu ‘Os construtores de antigamente usaram somente varas e barro, mas mesmo assim eles construíram lindas cabanas.
 
 quote}}
 
 {{index "command line", "Yuan-Ma", "Book of Programming"}}
 
-So far, we have used the JavaScript language in a single environment:
-the browser. This chapter and the [next one](skillsharing) will
-briefly introduce ((Node.js)), a program that allows you to apply your
-JavaScript skills outside of the browser. With it, you can build
-anything from small command-line tools to HTTP ((server))s that power
-dynamic ((website))s.
+Até agora você vem aprendendo e usando a linguagem JavaScript num único
+ambiente: o navegador. Esse capítulo e o [próximo](skillsharing) vão introduzir brevemente você
+ao ((Node.js)), um programa que permite que você aplique suas habilidades de
+JavaScript fora do navegador. Com isso, você pode construir desde uma ferramenta
+de linha de comando até ((servidores)) HTTP dinâmicos.
 
-These chapters aim to teach you the main concepts that Node.js uses
-and to give you enough information to write useful programs for it.
-They do not try to be a complete, or even a thorough, treatment of the
-platform.
+Esses capítulos visam te ensinar conceitos importantes nos quais o Node.js foi
+construído, e também te dar informação suficiente para escrever alguns programas
+úteis. Esses capítulos não detalham completamente o funcionamento do Node.
 
 {{if interactive
 
-Whereas you could run the code in previous chapters directly on these
-pages, because it was either raw JavaScript or written for the
-browser, the code samples in this chapter are written for Node and
-often won't run in the browser.
+Você vem executando o código dos capítulos anteriores diretamente nessas
+páginas, pois eram pura e simplesmente JavaScript ou foram escritos para o
+navegador, porém os exemplos de códigos nesse capítulo são escritos para o Node
+e não vão rodar no navegador.
 
 if}}
 
-If you want to follow along and run the code in this chapter, start by
-going to [_nodejs.org_](https://nodejs.org) and following the
-installation instructions for your operating system. You can also find
-further ((documentation)) for Node.js there.
+Se você quer seguir em frente e rodar os códigos desse capítulo, comece indo em
+[_nodejs.org_](https://nodejs.org) e seguindo as instruções de instalação para o seu sistema
+operacional. Guarde também esse site como referência para uma documentação mais
+profunda sobre Node e seus módulos integrados.
 
-## Background
+## Por Trás dos Panos
 
 {{index responsiveness, input}}
 
-One of the more difficult problems with writing systems that
-communicate over the ((network)) is managing input and ((output))—that
-is, the reading and writing of data to and from the network and ((hard
-drive)). Moving data around takes time, and ((scheduling)) it cleverly
-can make a big difference in how quickly a system responds to the user
-or to network requests.
+Um dos problemas mais difíceis em escrever sistemas que se comunicam através de
+uma ((rede)) é administrar a entrada e ((saída)) — ou seja, ler escrever dados na rede,
+num ((disco rígido)), e outros dispositivos. Mover os dados desta forma consome
+tempo, e ((planejar)) isso de forma inteligente pode fazer uma enorme diferença
+na velocidade em que um sistema responde ao usuário ou às requisições da rede.
 
-In such programs, ((asynchronous programming)) is often helpful. It
-allows the program to send and receive data from and to multiple
-devices at the same time without complicated thread management and
-synchronization.
+Em tais sistemas, ((programação assíncrona)) pode ajudar. Com ela, 
+é possível enviar e receber dados de e para vários dispositivos ao mesmo tempo sem
+sincronização e gerenciamente complicados de ((thread))s.
 
 {{index "programming language", "Node.js", standard}}
 
@@ -67,6 +59,15 @@ ending up with two inconsistent interfaces. In 2009, when Node was
 being designed, people were already doing callback-based programming
 in the browser, so the ((community)) around the language was used to
 an ((asynchronous programming)) style.
+
+Node foi inicialmente concebido para o propósito de tornar programação assíncrona
+fácil e conveniente. JavaScript se adequa bem a isto. É uma das poucas linguagens
+que não tem uma forma nativa de fazer _I/O_ (input/output ou entrada/saída).
+Sendo assim, JavaScript poderia usar a forma excêntrica do Node de fazer _I/O_,
+sem a necessidade de usar duas interfaces inconsistentes. Em 2009, quando Node
+estava sendo projetado, as pessoas já estavam programando assincronicamente no navegador,
+usando _callbacks_. Então o público da linguagem já estava acostumado a programação
+assíncrona.
 
 ## The node command
 

@@ -59,41 +59,39 @@ estava sendo projetado, as pessoas já estavam programando assincronicamente no 
 usando _callbacks_. Então o público da linguagem já estava acostumado a programação
 assíncrona.
 
-## The node command
+## O comando node
 
 {{index "node program"}}
 
-When ((Node.js)) is installed on a system, it provides a program
-called `node`, which is used to run JavaScript files. Say you have a
-file `hello.js`, containing this code:
+Quando Node.js está instalado em um sistema, ele disponibiliza um programa
+chamado `node`, que é usado para executar arquivos JavaScript. Digamos que
+você tenha um arquivo chamado `ola.js`, contendo o seguinte código:
 
 ```
-let message = "Hello world";
+let message = "Olá mundo";
 console.log(message);
 ```
 
-You can then run `node` from the ((command line)) like this to execute
-the program:
+Você pode então rodar `node` a partir da linha de comando para executar o
+programa:
 
 ```{lang: null}
-$ node hello.js
-Hello world
+$ node ola.js
+Olá mundo
 ```
 
 {{index "console.log"}}
 
-The `console.log` method in Node does something similar to what it
-does in the browser. It prints out a piece of text. But in Node, the
-text will go to the process' ((standard output)) stream, rather than
-to a browser's ((JavaScript console)). When running `node` from the
-command line, that means you see the logged values in your
-((terminal)).
+O método `console.log` no Node tem um funcionamento bem parecido ao do
+navegador. Ele imprime um pedaço de texto. Mas no Node, o texto será impresso
+no console em que foi executado, e não no console do navegador. Se executado em
+uma linha de comando, o log será mostrado no ((terminal))
 
 {{index "node program", "read-eval-print loop"}}
 
-If you run `node` without giving it a file, it provides you with a
-prompt at which you can type JavaScript code and immediately see the
-result.
+Se você rodar `node` sem especificar nenhum arquivo, ele te fornecerá um
+_prompt_ no qual você poderá escrever códigos JavaScript e ver o resultado
+imediatamente.
 
 ```{lang: null}
 $ node
@@ -107,12 +105,12 @@ $
 
 {{index "process object", "global scope", [binding, global], "exit method", "status code"}}
 
-The `process` binding, just like the `console` binding, is available
-globally in Node. It provides various ways to inspect and manipulate
-the current program. The `exit` method ends the process and can be
-given an exit status code, which tells the program that started `node`
-(in this case, the command-line shell) whether the program completed
-successfully (code zero) or encountered an error (any other code).
+A variável `process`, assim como a variável `console`, está disponível
+globalmente no Node. Ela fornece várias maneiras de inspecionar e manipular o
+programa atual. O método `exit` finaliza o processo e pode receber um código
+de saída, que diz ao programa que iniciou `node` (nesse caso, a linha de
+comando) se o programa foi completado com sucesso (código zero) ou se encontrou
+algum erro (qualquer outro código).
 
 {{index "command line", "argv property"}}
 
@@ -122,24 +120,30 @@ includes the name of the `node` command and your script name, so the
 actual arguments start at index 2. If `showargv.js` contains the
 statement `console.log(process.argv)`, you could run it like this:
 
-```{lang: null}
+Para encontrar os argumentos de linha de comando recebidos pelo seu script, você
+pode ler `process.argv`, que é um _array_ de _strings_. Note que também
+estarão inclusos o nome dos comandos `node` e o nome do seu script, fazendo
+com que os argumentos comecem na posição 2. Se `showargv.js` contém somente
+o _statement_ `console.log(process.argv)`, você pode rodá-lo dessa forma:
+
+```
 $ node showargv.js one --and two
-["node", "/tmp/showargv.js", "one", "--and", "two"]
+["node", "/home/braziljs/showargv.js", "one", "--and", "two"]
 ```
 
 {{index [binding, global]}}
 
-All the ((standard)) JavaScript global bindings, such as `Array`,
-`Math`, and `JSON`, are also present in Node's environment.
-Browser-related functionality, such as `document` or `prompt`, is not.
+Todas as variáveis JavaScript globais, como `Array`, `Math` and
+`JSON`, estão presentes também no ambiente do Node. Funcionalidades
+relacionadas ao navegador, como `document` e `alert` estão ausentes.
 
-## Modules
+## Módulos
 
 {{index "Node.js", "global scope", "module loader"}}
 
-Beyond the few bindings I mentioned, such as `console` and `process`,
-Node puts few bindings in the global scope. If you want to access
-built-in functionality, you have to ask the module system for it.
+Além de algumas variáveis que mencionei, como `console`e `process`, Node
+também coloca pequenas funcionalidades no escopo global. Se você quiser acessar
+outras funcionalidades embutidas, você precisa pedir esse módulo ao sistema.
 
 {{index "require function"}}
 
@@ -148,6 +152,10 @@ described in [Chapter ?](modules#commonjs). This system is built into
 Node and is used to load anything from built-in ((module))s to
 downloaded ((package))s to ((file))s that are part of your own
 program.
+
+O sistema de módulo ((CommonJS)), baseado na função `require`, estão descritos
+no Capítulo 10. Esse sistema é embutido em Node, e é usado para carregar (importar)
+módulos embutidos, baixados e até mesmo arquivos que fazem parte do seu próprio programa.
 
 {{index [path, "file system"], "relative path", resolution}}
 
@@ -159,21 +167,33 @@ directory up, and `"/"` for the root of the file system. So if you ask
 for `"./graph"` from the file `/tmp/robot/robot.js`, Node will try to
 load the file `/tmp/robot/graph.js`.
 
+Quando `require` é chamado, Node tem que transformar a string recebida em
+um arquivo real a ser carregado. Nomes de caminhos que começam com `"/"`, `"./"` ou
+`"../"` indicam que Node deve procurar relativo ao caminho do arquivo atual,
+aonde `"./"` significa o diretório atual, `"../"` para um diretório acima, e `"/"` para a raiz
+do sistema de arquivos. Então se você solicitar por `"./world/world"` do
+arquivo `/home/braziljs/elife/run.js`, Node vai tentar carregar o arquivo
+`/home/braziljs/elife/world/world.js`.
+
 {{index "index.js"}}
 
 The `.js` ((extension)) may be omitted, and Node will add it if such a
 file exists. If the required path refers to a ((directory)), Node will
 try to load the file named `index.js` in that directory.
 
+A ((extensão)) `.js` pode ser omitida, e Node adicionará ela se tal arquivo existir.
+Se o caminho referir-se a um ((diretório)), Node carregará – se existir – o arquivo
+chamado `index.js` neste diretório.
+
 {{index "node_modules directory", directory}}
 
-When a string that does not look like a relative or absolute path is
-given to `require`, it is assumed to refer to either a built-in
-((module)) or a module installed in a `node_modules` directory. For
-example, `require("fs")` will give you Node's built-in file system
-module. And `require("robot")` might try to load the library found in
-`node_modules/robot/`. A common way to install such libraries is by
-using ((NPM)), which we'll come back to in a moment.
+Quando uma _string_ recebida pelo `require` não parece ser um caminho
+relativo ou absoluto, é suposto que ela se refere a um módulo integrado (embutido) ou
+que está instalado no diretório `node_modules`. Por exemplo,
+`require("fs")` disponibilizará o módulo de sistema de arquivos integrado ao
+Node, `require("elife")` vai tentar carregar a biblioteca encontrada em
+`node_modules/elife`. A maneira mais comum de instalar bibliotecas como
+essas é usando NPM, que em breve nós vamos discutir.
 
 {{index "require function", "Node.js", "garble example"}}
 
@@ -181,13 +201,17 @@ Let's set up a small project consisting of two files. The first one is
 called `main.js`, and defines a script that can be called from the
 ((command line)) to reverse a string.
 
+Vamos criar um pequeno projeto consistindo de dois arquivos. O primeiro é
+chamado `main.js`, e apresenta um script que pode ser chamado de uma linha
+de comando para inverter uma string.
+
 ```
-const {reverse} = require("./reverse");
+const {inverter} = require("./inverter");
 
-// Index 2 holds the first actual command-line argument
-let argument = process.argv[2];
+// A posição 2 guarda o primeiro argumento que nos interessa
+let argumento = process.argv[2];
 
-console.log(reverse(argument));
+console.log(inverter(argumento));
 ```
 
 {{index reuse, "Array.from function", "join method"}}
@@ -197,7 +221,7 @@ can be used both by this command-line tool and by other scripts that
 need direct access to a string-reversing function.
 
 ```
-exports.reverse = function(string) {
+exports.inverter = function(string) {
   return Array.from(string).reverse().join("");
 };
 ```
